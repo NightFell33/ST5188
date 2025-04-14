@@ -35,7 +35,7 @@ def get_posts_by_time(subreddit_name, limit=2000, sort='new'):
     return pd.DataFrame(posts).sort_values('created_utc', ascending=False)
 
 
-# 获取所有帖子的ID（已修复）
+# 获取所有帖子的ID
 new_posts_df1 = get_posts_by_time('apple', limit=2000, sort='new')
 # post_ids = new_posts_df1['id'].tolist()  # 直接使用PRAW的post.id更可靠
 
@@ -53,8 +53,8 @@ concat_posts_3_11.to_csv('concat_posts_3_11.csv', index = False)
 
 new_posts_df1_cut.to_csv('cut_posts_3_11.csv', index = False)
 
-post_ids = new_posts_df1_cut['id'].tolist()  # 直接使用PRAW的post.id更可靠
-# 获取完整评论数据（修复replace_more）
+post_ids = new_posts_df1_cut['id'].tolist()
+# 获取完整评论数据
 def get_all_comments(post_id):
     post = reddit.submission(id=post_id)
     post.comments.replace_more(limit=None)  # 展开所有嵌套评论
