@@ -96,7 +96,7 @@ vocab_dict = {
     "game": ["game"],
     "magsafe": ["magsafe"],
     "looking": ["looking"],
-    # "sound_single": ["sound"],  # 单独存在的sound
+    # "sound_single": ["sound"], 
     "glass": ["glass"],
     "notification": ["notification"],
     "trump": ["trump"],
