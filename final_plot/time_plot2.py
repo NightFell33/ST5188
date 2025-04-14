@@ -5,7 +5,7 @@ from tqdm import tqdm  # 进度条支持
 # 假设原始数据结构包含：评论文本、情感标签、日期
 df = pd.read_csv('D:/file/predictions_results_vader+BERT.csv', parse_dates=['standard_time'])
 
-# 示例词汇表定义（需替换为实际25个词汇表）
+# 词汇表定义
 vocab_groups = {
     # 多词组（括号内部分）
     "app_group": ["app", "apps", "store", "software"],
@@ -27,7 +27,7 @@ vocab_groups = {
     "game": ["game"],
     "magsafe": ["magsafe"],
     "looking": ["looking"],
-    # "sound_single": ["sound"],  # 单独存在的sound
+    # "sound_single": ["sound"]
     "glass": ["glass"],
     "notification": ["notification"],
     "trump": ["trump"],
@@ -53,7 +53,7 @@ for group_name, keywords in tqdm(vocab_groups.items()):
         na=False
     )
 
-# 根据GoEmotions官方标签定义正负情绪（需根据实际标签调整）
+# 根据GoEmotions官方标签定义正负情绪
 positive_emotions = [
     'admiration', 'amusement', 'approval', 'caring', 'desire',
     'excitement', 'gratitude', 'joy', 'love', 'optimism',
@@ -70,7 +70,7 @@ negative_emotions = [
 emotion_mapping = {emotion: 'positive' for emotion in positive_emotions}
 emotion_mapping.update({emotion: 'negative' for emotion in negative_emotions})
 
-# 情感标签合并（根据之前定义）
+# 情感标签合并
 df['sentiment'] = df['model2_predictions'].map(emotion_mapping)
 df = df.dropna(subset=['sentiment'])  # 过滤中性情绪
 
