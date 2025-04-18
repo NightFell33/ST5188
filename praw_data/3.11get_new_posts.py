@@ -1,12 +1,12 @@
 import praw
 import pandas as pd
 import time
-from tqdm import tqdm  # 可选，用于进度条
+from tqdm import tqdm
 
 reddit = praw.Reddit(
-    client_id='pi5KqsKi1X_m3czgdSFRVw',
-    client_secret='jmgplRBFxA6ZqTO89uvQm6t72SzlcA',
-    user_agent='Myapp by NightFell33 (2630008256@qq.com)'
+    client_id='',
+    client_secret='',
+    user_agent=''
 )
 
 
