@@ -67,7 +67,7 @@ start_time = time.time()
 history = model.fit(X_train, y_train, epochs=3, batch_size=256, validation_data=(X_test, y_test))
 
 end_time = time.time()
-print(f'模型运行时间：{end_time-start_time}')
+print(f'runtime：{end_time-start_time}')
 
 # Evaluate the model
 loss, accuracy = model.evaluate(X_test, y_test)
@@ -78,18 +78,18 @@ model.save('lstm_model.h5')
 
 # model = tf.keras.models.load_model('lstm_model.h5')
 
-# 预测概率和类别
+# predict the emotions
 y_pred_prob = model.predict(X_test)
 y_pred = np.argmax(y_pred_prob, axis=1)
 
 y_test_argmax = np.argmax(y_test, axis=1)
 
-# 计算 F1
+# calculate F1
 f1_macro = f1_score(y_test_argmax, y_pred, average='macro')
 f1_micro = f1_score(y_test_argmax, y_pred, average='micro')
 print(f"Macro F1: {f1_macro:.4f}, Micro F1: {f1_micro:.4f}")
 
-# 计算 AUC-ROC
+# calculate AUC-ROC
 y_test_binarized = label_binarize(y_test, classes=np.arange(27))
 auc_roc = roc_auc_score(
     y_test_binarized,

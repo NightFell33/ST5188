@@ -21,7 +21,7 @@ nltk.download('averaged_perceptron_tagger_eng')
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
-# 第一部分，该部分为数据增广
+# Part one, this part is for data augmentation
 # Load the dataset
 combined_df = pd.read_csv("goemotions.csv", encoding='ISO-8859-1')
 
@@ -67,26 +67,26 @@ for emotion, group in emotion_cols.groupby('emotion'):
 # Combine original and augmented data
 balanced_df = pd.concat([combined_df, augmented_data], ignore_index=True)
 
-# 定义处理范围
+# Define the processing range
 START_ROW = 211225
 EMOTION_COLUMNS = balanced_df.columns[9:37]
 
 def fill_emotion_labels(row):
-    """处理单个行的填充逻辑"""
+    """Processing logic for a single row"""
     emotion = str(row['emotion']).strip()
 
-    # 初始化所有情感列为0
+    # Initialize all emotion columns to 0
     row[EMOTION_COLUMNS] = 0
 
-    # 查找匹配列
+    # Find the matching column
     for col in EMOTION_COLUMNS:
         if emotion.lower() == col.lower():
             row[col] = 1
-            break  # 因为每个emotion只对应一个情感
+            break  # Because each emotion corresponds to only one emotion
 
     return row
 
-# 仅处理指定行之后的数据
+# Process only the data after the specified row
 balanced_df.iloc[START_ROW:, :] = balanced_df.iloc[START_ROW:].apply(
     fill_emotion_labels,
     axis=1
@@ -103,27 +103,27 @@ balanced_df.to_csv("balanced_goemotions.csv", index=False)
 print("Balanced dataset saved as 'balanced_goemotions.csv'.")
 
 
-# 此为第二部分，对增强后的数据做数据预处理
+# This is part two, preprocessing the augmented data
 # Text Preprocessing
 
-# 预处理函数
+# Preprocessing function
 def preprocess_text(text):
-    # 转换为小写
+    # Convert to lowercase
     text = text.lower()
-    # 移除URL
+    # Remove URLs
     text = re.sub(r'http\S+', '', text)
-    # 移除标点符号
+    # Remove punctuation
     text = text.translate(str.maketrans('', '', string.punctuation))
-    # 将表情包转换成文字（如有）
+    # Convert emojis to text (if any)
     text = emoji.demojize(text)
-    # 移除非字母字符
+    # Remove non-alphabetic characters
     text = re.sub(r'[^a-zA-Z]', ' ', text)
-    # 分词
+    # Tokenize
     words = text.split()
-    # 移除停用词
+    # Remove stopwords
     stop_words = set(stopwords.words('english'))
     words = [word for word in words if word not in stop_words]
-    # 词素化
+    # Lemmatize
     lemmatizer = WordNetLemmatizer()
     tokens = [lemmatizer.lemmatize(word) for word in words]
     return tokens

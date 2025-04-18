@@ -16,20 +16,20 @@ nltk.download('stopwords')
 nltk.download('wordnet')
 
 
-# 读取数据集
+# load the data
 df = pd.read_csv('Goemotions.csv', encoding='ISO-8859-1')
 
-# 定义情感列表（假设列名如下，需根据实际数据调整）
+# define the emotions columns
 emotions = ['admiration', 'amusement', 'anger', 'annoyance', 'approval', 'caring',
             'confusion', 'curiosity', 'desire', 'disappointment', 'disapproval',
             'disgust', 'embarrassment', 'excitement', 'fear', 'gratitude', 'grief',
             'joy', 'love', 'nervousness', 'optimism', 'pride', 'realization',
             'relief', 'remorse', 'sadness', 'surprise', 'neutral']
 
-# 预处理函数
+# preprocess function
 def preprocess_text(text):
     text = str(text).lower()
-    text = re.sub(r'[^\w\s]', '', text)  # 移除标点
+    text = re.sub(r'[^\w\s]', '', text)
     tokens = word_tokenize(text)
     stop_words = set(stopwords.words('english'))
     tokens = [word for word in tokens if word not in stop_words]
@@ -40,7 +40,7 @@ def preprocess_text(text):
 emotion_data = {}
 all_words = set()
 
-# 处理每个情感类别的词频
+# get frequency for different emotions
 for emotion in emotions:
     texts = df[df[emotion] == 1]['text'].astype(str).tolist()
     tokens = []
@@ -53,7 +53,7 @@ for emotion in emotions:
     }
     all_words.update(freq.keys())
 
-# 统计每个词出现在多少种情感中
+# Count how many emotions each word appears in
 word_df = {word: 0 for word in all_words}
 for word in all_words:
     for emotion in emotions:
@@ -61,8 +61,8 @@ for word in all_words:
             word_df[word] += 1
 
 
-##
-N = len(emotions)  # 情感类别总数
+
+N = len(emotions)
 
 for emotion in emotions:
     freq = emotion_data[emotion]['freq']
@@ -72,10 +72,10 @@ for emotion in emotions:
     for word, count in freq.items():
         tf = count / total_words
         df = word_df.get(word, 0)
-        idf = np.log(N / (df + 1))  # 加1平滑避免除零
+        idf = np.log(N / (df + 1))
         tfidf[word] = tf * idf
 
-    # 生成词云
+    # generate wordcloud
     wordcloud = WordCloud(
         width=800,
         height=400,
