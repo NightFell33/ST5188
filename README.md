@@ -14,7 +14,8 @@ Note that the LSTM training part needs to be run under a tensorflow-gpu environm
 
 ### praw_data/
 
-This folder is for getting data from Reddit.
+This folder is for getting data from Reddit. (Note that this is the starting point for all data sections, 
+other open source datasets used in this project such as Goemotions are available from the web.
 
 apple_new.py -- file for get data from Reddit. 
 Note that you may need API account to login, 
