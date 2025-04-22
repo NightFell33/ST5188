@@ -18,10 +18,9 @@ This folder is for getting data from Reddit. (Note that this is the starting poi
 other open source datasets used in this project such as Goemotions are available from the web.
 
 apple_new.py -- file for get data from Reddit. 
-Note that you may need API account to login, 
-and I have put my own account in the file. 
+Note that you may need API account to login, which can be got from https://github.com/reddit-archive/reddit/wiki/OAuth2. 
 Also note that due to the time change, 
-you will get different data if you use this and following files.
+you will get different data if you use this and following codes. This is unavoidable due to the limitations of the API.
 
 3.11get_new_posts.py -- file for get new data from Reddit before 3.11.
 
